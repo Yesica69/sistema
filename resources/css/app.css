@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card-info {
+    border-color: #9b59b6; /* Color de borde lila */
+    background-color: #d8a8f7; /* Fondo lila claro */
+    color: #ffffff; /* Texto blanco */
+}
