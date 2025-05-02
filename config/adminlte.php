@@ -196,9 +196,10 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'sidebar_style' => 'sidebar-custom-pastel',
+    'classes_sidebar' => 'sidebar-dark-indigo- elevation-4',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-white navbar-light',
+    'classes_topnav' => 'navbar-dark-info navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
 
@@ -215,6 +216,7 @@ return [
     */
 
     'sidebar_mini' => 'lg',
+    'sidebar_style' => 'sidebar-dark-info',
     'sidebar_collapse' => false,
     'sidebar_collapse_auto_size' => false,
     'sidebar_collapse_remember' => false,
@@ -223,6 +225,7 @@ return [
     'sidebar_scrollbar_auto_hide' => 'l',
     'sidebar_nav_accordion' => true,
     'sidebar_nav_animation_speed' => 300,
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -297,197 +300,177 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Menu-Configuration
     |
     */
-
-    'menu' => [
-        // Navbar items:
+      // Navbar items:
         /*[
             'type' => 'navbar-search',
             'text' => 'search',
             'topnav_right' => true,
         ],*/
-        [
-            'type' => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
-        [
-            'text' => 'DHASBORAD',
-            'url' => 'home',
-            'icon' => 'fas fa-fw fa-gear',
 
-            'classes' =>'bg-blue text-white',
-        ],
+        
 
-
-        [
-            'text' => 'Administracion',
-            'icon' => 'fa-solid fa-user-tie',
-            'classes' => 'bg-blue text-white',
-            'submenu' => [
-                [
-                    'text' => 'Sucursales',
-                    'icon' => 'fa-regular fa-building',
-                   
-                    'url' => 'admin/vista',
-                ],
-                [
-                    'text' => 'Usuario',
-                    'icon' => 'fas fa-fw fa-users',
-                    'url' => 'admin/usuarios',
-                ],
-                [
-                    'text' => 'Roles',
-                    'icon' => ' fa-regular fa-rectangle-list',
-                   
-                    'url' => 'admin/roles',
-                ],
-            ],
-        ],
-
-        [
-            'text' => 'Permisos',
-            'icon' => 'fas fa-fw fa-user-lock',
-            'classes' => 'bg-blue text-white',
-            'submenu' => [
-                [
-                    'text' => 'Lisatdo de permisos',
-                    'icon' => 'fa-solid fa-',                  
-                    'url' => 'admin/permisos'
-                    
-                ],
-                
-
-            ],
-        ],
-        [
-            'text' => 'Inventario',
-            'icon' => 'fas fa-fw fa-gear',
-            'classes' => 'bg-blue text-white',
-            'submenu' => [
-                [
-                    'text' => 'Categorias',
-                    'icon' => 'fa-solid fa-newspaper',                  
-                    'url' => 'admin/categorias',
-                    
-                ],
-                [
-                    'text' => 'laboratorio',
-                    'icon' => 'fa-solid fa-building',
-                    'url' => 'admin/laboratorios',
-    
-                ],
-
-                [
-                    'text' => 'Proveedores',
-                    'icon' => 'fa-solid fa-list',
-                    'url' => 'admin/proveedores',
-    
-                ],
-                
-            ],
-        ],
-        [
-            'text' => 'Productosss',
-            'url' => 'admin/productos',
-            'icon' => 'fas fa-fw fa-gear',
-
-            'classes' =>'bg-blue text-white',
-        ],
-        [
-            'text' => 'Clientes',
-            'url' => 'admin/clientes',
-            'icon' => 'fas fa-fw fa-gear',
-
-            'classes' =>'bg-blue text-white',
-        ],
-
-        [
-            'text' => 'Compras',
-            'icon' => 'fas fa-fw fa-gear',
-            'classes' => 'bg-blue text-white',
-            'submenu' => [
-                [
-                    'text' => 'Gestionar compras',
-                    'icon' => 'fa-solid fa-newspaper',                  
-                    'url' => 'admin/compras',
-                    
-                ],
-               
-
-              
-            ],
-        ],
-
-        [
-            'text' => 'Ventas',
-            'icon' => 'fas fa-fw fa-money-bill',
-            'classes' => 'bg-blue text-white',
-            'submenu' => [
-                [
-                    'text' => 'Listao de ventas',
-                    'icon' => 'fa-solid fa-newspaper',                  
-                    'url' => 'admin/ventas',
-                    
-                ],
-              
-
-              
-            ],
-        ],
-
-        [
-            'text' => 'Cajass',
-            'icon' => 'fas fa-fw fa-cash-register',
-            'classes' => 'bg-blue text-white',
-            'submenu' => [
-                [
-                    'text' => 'Listado de cajasss',
-                    'icon' => 'fa-solid fa-newspaper',                  
-                    'url' => 'admin/cajas',
-                    
-                ],
-                [
-                    'text' => 'Listado de cajasss',
-                    'icon' => 'fa-solid fa-newspaper',                  
-                    'url' => 'admin/cajas',
-                    
-                ],
-
-            ],
-        ],
-        [
-            'text' => 'Reportes',
-            'icon' => 'fas fa-fw fa-cash-register',
-            'classes' => 'bg-blue text-white',
-            'submenu' => [
-                [
-                    'text' => 'Reporte de ingresos',
-                    'icon' => 'fa-solid fa-newspaper',                  
-                    'url' => 'admin/reporte/ingresos'
-                    
-                ],
-                [
-                    'text' => 'Reporte de egresos',
-                    'icon' => 'fa-solid fa-newspaper',                  
-                    'url' => 'admin/reporte/egresos',
-                    
-                ],
-
-            ],
-        ],
-
-      
-
-
-        [
-            'text' => 'Salir',
-            'url' => 'admin/productos',
-            'icon' => 'fas fa-fw fa-gear',
-
-            'classes' =>'bg-blue text-white',
-        ],
-
-       
+   'menu' => [
+    // Widget de pantalla completa
+    [
+        'type' => 'fullscreen-widget',
+        'topnav_right' => true,
     ],
+    
+    // Dashboard
+    [
+        'text' => 'DASHBOARD',
+        'url' => 'home',
+        'icon' => 'fas fa-fw fa-chart-pie',
+        'classes' => 'bg-light-blue-custom text-white',
+        'active' => ['home']
+    ],
+
+    // Administración
+    [
+        'text' => 'ADMINISTRACIÓN',
+        'icon' => 'fas fa-user-shield',
+        'classes' => 'bg-light-blue text-white',
+        'submenu' => [
+            [
+                'text' => 'Sucursales',
+                'icon' => 'fas fa-hospital',
+                'url' => 'admin/vista',
+                'classes' => 'text-light-blue'
+            ],
+            [
+                'text' => 'Usuarios',
+                'icon' => 'fas fa-users-cog',
+                'url' => 'admin/usuarios',
+                'classes' => 'text-light-blue'
+            ],
+            [
+                'text' => 'Roles',
+                'icon' => 'fas fa-user-tag',
+                'url' => 'admin/roles',
+                'classes' => 'text-light-blue'
+            ],
+        ],
+    ],
+
+    // Seguridad
+    [
+        'text' => 'SEGURIDAD',
+        'icon' => 'fas fa-lock',
+        'classes' => 'bg-light-blue text-white',
+        'submenu' => [
+            [
+                'text' => 'Permisos',
+                'icon' => 'fas fa-key',
+                'url' => 'admin/permisos',
+                'classes' => 'text-light-blue'
+            ],
+        ],
+    ],
+
+    // Inventario
+    [
+        'text' => 'INVENTARIO',
+        'icon' => 'fas fa-pills',
+        'classes' => 'bg-light-blue text-white',
+        'submenu' => [
+            [
+                'text' => 'Categorías',
+                'icon' => 'fas fa-tags',
+                'url' => 'admin/categorias',
+                'classes' => 'text-light-blue'
+            ],
+            [
+                'text' => 'Laboratorios',
+                'icon' => 'fas fa-flask',
+                'url' => 'admin/laboratorios',
+                'classes' => 'text-light-blue'
+            ],
+            [
+                'text' => 'Proveedores',
+                'icon' => 'fas fa-truck',
+                'url' => 'admin/proveedores',
+                'classes' => 'text-light-blue'
+            ],
+            [
+                'text' => 'Productos',
+                'icon' => 'fas fa-capsules',
+                'url' => 'admin/productos',
+                'classes' => 'text-light-blue'
+            ],
+        ],
+    ],
+
+    // Clientes
+    [
+        'text' => 'CLIENTES',
+        'url' => 'admin/clientes',
+        'icon' => 'fas fa-user-injured',
+        'classes' => 'bg-light-blue text-white',
+        'active' => ['admin/clientes*']
+    ],
+
+    // Operaciones
+    [
+        'text' => 'OPERACIONES',
+        'icon' => 'fas fa-exchange-alt',
+        'classes' => 'bg-light-blue text-white',
+        'submenu' => [
+            [
+                'text' => 'Compras',
+                'icon' => 'fas fa-shopping-cart',
+                'url' => 'admin/compras',
+                'classes' => 'text-light-blue'
+            ],
+            [
+                'text' => 'Ventas',
+                'icon' => 'fas fa-cash-register',
+                'url' => 'admin/ventas',
+                'classes' => 'text-light-blue'
+            ],
+            [
+                'text' => 'Cajas',
+                'icon' => 'fas fa-cash-register',
+                'url' => 'admin/cajas',
+                'classes' => 'text-light-blue'
+            ],
+        ],
+    ],
+
+    // Reportes
+    [
+        'text' => 'REPORTES',
+        'icon' => 'fas fa-chart-bar',
+        'classes' => 'bg-light-blue text-white',
+        'submenu' => [
+            [
+                'text' => 'Reporte de Ingresos',
+                'icon' => 'fas fa-file-invoice-dollar',
+                'url' => 'admin/reporte/ingresos',
+                'classes' => 'text-light-blue'
+            ],
+            [
+                'text' => 'Reporte de Egresos',
+                'icon' => 'fas fa-file-invoice',
+                'url' => 'admin/reporte/egresos',
+                'classes' => 'text-light-blue'
+            ],
+            [
+                'text' => 'Inventario Actual',
+                'icon' => 'fas fa-clipboard-list',
+                'url' => 'admin/reporte/inventario',
+                'classes' => 'text-light-blue'
+            ],
+        ],
+    ],
+
+    // Salir
+    [
+        'text' => 'CERRAR SESIÓN',
+        'url' => 'logout',
+        'icon' => 'fas fa-sign-out-alt',
+        'classes' => 'bg-light-blue text-white'
+    ],
+],
 
     /*
     |--------------------------------------------------------------------------

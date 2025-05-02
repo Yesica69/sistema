@@ -1,7 +1,22 @@
 @extends('adminlte::page')
 
 @section('content_header')
-<h1><b>Modificar datos de la compra #{{ $compra->id }}</b></h1>
+<div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0 text-dark">
+                <i class="fas fa-edit mr-2"></i> Editar Compra #{{ $compra->id }}
+            </h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                
+                <li class="breadcrumb-item"><a href="{{ url('/admin/compras') }}">Compras</a></li>
+                <li class="breadcrumb-item active">Editar</li>
+            </ol>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('content')
@@ -9,14 +24,16 @@
     <!-- Formulario para crear un usuario -->
     <div class="col-md-12">
         <div class="card card-outline card-success">
-            <div class="card-header">
-                <h3 class="card-title">Datos registrados</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
+        <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-clipboard-list mr-2"></i> Detalles de la Compra
+                    </h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
             <div class="card-body">
                 <!-- Formulario -->
                 <form action="{{url('/admin/compras', $compra->id) }}" id="form_compra"method="post">
@@ -472,3 +489,7 @@ $('#form_compra').on('keypress',function (e){
 
 </script>
 @endsection
+
+
+
+

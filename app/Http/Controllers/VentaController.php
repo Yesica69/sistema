@@ -171,8 +171,13 @@ $literal = numerosALetrasConDecimales($numero);
 
 
 
-    $pdf =PDF::loadView ('admin.ventas.pdf',compact('sucursal','venta','literal'));
-    return $pdf->stream();
+
+
+$pdf = PDF::loadView('admin.ventas.pdf', compact('sucursal', 'venta', 'literal'))
+          ->setPaper([0, 0, 250.77, 600], 'portrait'); // 80mm ancho x 600pt alto (ajustable)
+
+return $pdf->stream();
+
   //  return view('admin.ventas.pdf');
 
 }

@@ -1,9 +1,15 @@
+
 @extends('adminlte::page')
 
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1><b>Roles</b></h1>
+<div class="d-flex justify-content-between align-items-center bg-gradient-white p-3 rounded-top">
+    <h1 class="m-0 text-black"><i class="fas fa-user-tag mr-2"></i> <strong>GESTIÓN DE ROLES</strong></h1>
+    <a href="{{ url('/admin/roles/reporte') }}" target="_blank" class="btn btn-danger btn-sm shadow-sm">
+        <i class="fas fa-file-pdf mr-1"></i> Generar Reporte
+    </a>
+</div>
 @stop
 
 @section('content')
@@ -12,7 +18,7 @@
     <div class="col-md-12">
         <div class="card card-outline card-primary">
             <div class="card-header">
-                <h3 class="card-title">Registro de roles</h3>
+            <h3 class="card-title">Registrar nuevo rol</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
@@ -128,31 +134,72 @@
                                 </div>
 
                                 @foreach($roles as $rol)
-<!-- Modal Asignar -->
+<!-- Modal Asignar Permisos -->
 <div class="modal fade" id="asignarModal{{ $rol->id }}" tabindex="-1" role="dialog" aria-labelledby="asignarLabel{{ $rol->id }}" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title"><b>Asignar permisos al rol: {{ $rol->name }}</b></h5>
-                <button type="button" class="close text-white" data-dismiss="modal">
-                    <span>&times;</span>
+    <div class="modal-dialog modal-lg"> <!-- Cambiado a modal-lg para mejor visualización -->
+        <div class="modal-content border-0 shadow-lg">
+            <!-- Header del modal - Mejorado -->
+            <div class="modal-header bg-gradient-primary text-white">
+                <h5 class="modal-title font-weight-bold">
+                    <i class="fas fa-key mr-2"></i> Asignar Permisos al Rol: <span class="text-capitalize">{{ $rol->name }}</span>
+                </h5>
+                <button type="button" class="close text-white opacity-75" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            
             <form action="{{ url('/admin/roles/asignar', $rol->id) }}" method="POST">
                 @csrf
                 @method('PUT')
-                <div class="modal-body">
-                    @foreach($permisos as $permiso)
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="permisos[]" value="{{ $permiso->id }}"
-                                {{ $rol->permissions->contains($permiso->id) ? 'checked' : '' }}>
-                            <label class="form-check-label">{{ $permiso->name }}</label>
+                <div class="modal-body p-4">
+                    <!-- Barra de búsqueda (opcional) -->
+                    <div class="form-group mb-4">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-white"><i class="fas fa-search"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="searchPermisos" placeholder="Buscar permisos...">
                         </div>
-                    @endforeach
+                    </div>
+                    
+                    <!-- Lista de permisos organizada -->
+                    <div class="row permisos-container" style="max-height: 400px; overflow-y: auto;">
+                        @foreach($permisos->chunk(ceil($permisos->count()/3)) as $chunk)
+                        <div class="col-md-4">
+                            @foreach($chunk as $permiso)
+                            <div class="custom-control custom-checkbox mb-3 permisos-item">
+                                <input type="checkbox" class="custom-control-input" id="permiso_{{ $permiso->id }}_{{ $rol->id }}" 
+                                    name="permisos[]" value="{{ $permiso->id }}"
+                                    {{ $rol->permissions->contains($permiso->id) ? 'checked' : '' }}>
+                                <label class="custom-control-label" for="permiso_{{ $permiso->id }}_{{ $rol->id }}">
+                                    <span class="badge badge-light border mr-2">
+                                        <i class="fas fa-shield-alt text-primary"></i>
+                                    </span>
+                                    {{ ucwords(str_replace('.', ' ', $permiso->name)) }}
+                                </label>
+                            </div>
+                            @endforeach
+                        </div>
+                        @endforeach
+                    </div>
+                    
+                    <!-- Contador de permisos seleccionados -->
+                    <div class="alert alert-info mt-3 mb-0 py-2">
+                        <small>
+                            <i class="fas fa-info-circle mr-1"></i>
+                            <span id="selectedCount"></span> permisos {{ $permisos->count() }} disponibles
+                        </small>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                
+                <!-- Footer del modal - Mejorado -->
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                        <i class="fas fa-times mr-2"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save mr-2"></i> Guardar Cambios
+                    </button>
                 </div>
             </form>
         </div>
@@ -178,6 +225,30 @@
 @stop
 
 @section('js')
+<!-- Script para funcionalidad adicional -->
+@push('scripts')
+<script>
+$(document).ready(function() {
+    // Función de búsqueda
+    $('#searchPermisos').on('keyup', function() {
+        const searchText = $(this).val().toLowerCase();
+        $('.permisos-item').each(function() {
+            const text = $(this).text().toLowerCase();
+            $(this).toggle(text.includes(searchText));
+        });
+    });
+    
+    // Contador de permisos seleccionados
+    function updateSelectedCount() {
+        const selected = $('input[name="permisos[]"]:checked').length;
+        $('#selectedCount').text(selected);
+    }
+    
+    $('input[name="permisos[]"]').change(updateSelectedCount);
+    updateSelectedCount(); // Inicializar contador
+});
+</script>
+@endpush
 <!-- Asegúrate de tener jQuery y Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>

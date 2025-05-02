@@ -7,3 +7,25 @@
     background-color: #d8a8f7; /* Fondo lila claro */
     color: #ffffff; /* Texto blanco */
 }
+
+/* Agrega esto */
+.bg-light-blue-custom {
+    background-color: #a8d8ea !important;
+}
+
+.text-light-blue-custom {
+    color: #2d87bb !important;
+}
+/* Color celeste pastel personalizado */
+.sidebar-custom-pastel {
+    background-color: #a8d8ea !important;
+}
+
+/* Color del texto y hover */
+.sidebar-custom-pastel .nav-link {
+    color: #2d87bb !important;
+}
+
+.sidebar-custom-pastel .nav-link:hover {
+    background-color: rgba(255,255,255,0.2) !important;
+}

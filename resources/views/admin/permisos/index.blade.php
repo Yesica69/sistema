@@ -3,7 +3,13 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1><b>Listado de permisos</b></h1>
+<div class="d-flex justify-content-between align-items-center bg-gradient-white p-3 rounded-top">
+    <h1 class="m-0 text-black"><i class="fas fa-key"></i> <strong>LISTADO DE PERMISOS</strong></h1>
+    <a href="{{ url('/admin/roles/reporte') }}" target="_blank" class="btn btn-danger btn-sm shadow-sm">
+        <i class="fas fa-file-pdf mr-1"></i> Generar Reporte
+    </a>
+</div>
+    
 @stop
 
 @section('content')
@@ -57,36 +63,47 @@
 
                             <!-- Modal para Editar Permiso -->
                             <div class="modal fade" id="editModal{{ $permiso->id }}" tabindex="-1" role="dialog" 
-                                aria-labelledby="editModalLabel{{ $permiso->id }}" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-primary text-white">
-                                            <h5 class="modal-title" id="editModalLabel{{ $permiso->id }}">Editar Permiso</h5>
-                                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form action="{{ url('/admin/permisos', $permiso->id) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label for="name">Nombre del Permiso</label>
-                                                    <input type="text" name="name" class="form-control" 
-                                                        value="{{ old('name', $permiso->name) }}" required>
-                                                    @error('name')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                    @enderror
+                                        aria-labelledby="editModalLabel{{ $permiso->id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content border-0 shadow">
+                                                <div class="modal-header bg-gradient-success text-white">
+                                                    <h5 class="modal-title" id="editModalLabel{{ $permiso->id }}">
+                                                        <i class="fas fa-edit mr-2"></i>Editar Permiso
+                                                    </h5>
+                                                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
                                                 </div>
+                                                <form action="{{ url('/admin/permisos', $permiso->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="name">Nombre del Permiso</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                                                </div>
+                                                                <input type="text" name="name" class="form-control" 
+                                                                    value="{{ old('name', $permiso->name) }}" required>
+                                                            </div>
+                                                            @error('name')
+                                                                <small class="text-danger">{{ $message }}</small>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                            <i class="fas fa-times mr-1"></i> Cancelar
+                                                        </button>
+                                                        <button type="submit" class="btn btn-success">
+                                                            <i class="fas fa-save mr-1"></i> Actualizar
+                                                        </button>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                <button type="submit" class="btn btn-primary">Actualizar</button>
-                                            </div>
-                                        </form>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
                         @endforeach
                     </tbody>
                 </table>
@@ -98,10 +115,12 @@
 <!-- Modal para Crear Nuevo Permiso -->
 <div class="modal fade" id="modalCrear" tabindex="-1" role="dialog" 
     aria-labelledby="modalCrearLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="modalCrearLabel"><b>Registrar Nuevo Permiso</b></h5>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-gradient-primary text-white">
+                <h5 class="modal-title" id="modalCrearLabel">
+                    <i class="fas fa-plus-circle mr-2"></i><strong>Registrar Nuevo Permiso</strong>
+                </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -111,17 +130,24 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="name">Nombre del Permiso</label>
-                        <input type="text" class="form-control" name="name" 
-                            value="{{ old('name') }}" required>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="name" 
+                                value="{{ old('name') }}" required placeholder="Ej: Gestionar Roles">
+                        </div>
                         @error('name')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times mr-1"></i> Cancelar
+                    </button>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Registrar
+                        <i class="fas fa-save mr-1"></i> Registrar
                     </button>
                 </div>
             </form>
@@ -160,3 +186,6 @@
     });
 </script>
 @stop
+
+
+

@@ -1,46 +1,140 @@
 <!doctype html>
-<html lang="en">
-  <head>
+<html lang="es">
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>reporte</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  </head>
-  <body>
-  <table border="1">
-    <tr>
-        <!-- Celda para la información -->
-        <td style="text-align: left; padding-right: 300px; vertical-align: middle;">
-            {{$sucursal->nombre}} <br>
-            <strong>Nit:     </strong> {{$sucursal->telefono}} <br>
-            <strong>Teléfono:</strong> {{$sucursal->telefono}} <br>
-            <strong>Dirección:</strong> {{$sucursal->direccion}} <br>
-            <strong>Correo:   </strong> {{$sucursal->email}} <br>
-        </td>
-       
+    <title>Factura de Venta - {{$sucursal->nombre}}</title>
+    <style>
+        /* Reset completo para impresión térmica */
+        body, html {
+            width: 80mm;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 9pt;
+            line-height: 1.1;
+        }
+        body {
+            padding: 2mm 3mm;
+            box-sizing: border-box;
+        }
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .text-bold { font-weight: bold; }
+        .text-uppercase { text-transform: uppercase; }
+        .text-small { font-size: 8pt; }
         
-        <!-- Celda para la imagen alineada a la derecha -->
-        <td style="text-align: right; vertical-align: middle;">
-            <img src="{{ public_path('storage/'.$sucursal->imagen) }}" width="100px" alt="Imagen no encontrada">
-           
-        </td>
-           
+        /* Encabezado con logo */
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2mm;
+        }
+        .logo {
+            width: 25mm;
+            height: auto;
+            max-height: 25mm;
+            margin-right: 2mm;
+        }
+        .header-text {
+            flex: 1;
+        }
+        .company-name {
+            font-size: 11pt;
+            font-weight: bold;
+            margin: 0 0 1mm 0;
+            line-height: 1.2;
+        }
+        .company-info {
+            font-size: 8pt;
+            line-height: 1.2;
+        }
         
-    </tr>
-    
-   
-</table>
-<table>
-<tr>
-    <td style="text-align: center">
-            <b>  FACTURA</b>
-        </td>
-    </tr>
-</table>
+        /* Título factura */
+        .invoice-title {
+            font-size: 10pt;
+            font-weight: bold;
+            text-align: center;
+            margin: 1mm 0;
+            padding: 1mm 0;
+            border-top: 1px dashed #000;
+            border-bottom: 1px dashed #000;
+        }
+        
+        /* Datos cliente */
+        .client-info {
+            margin-bottom: 2mm;
+            line-height: 1.3;
+        }
+        
+        /* Tabla de productos */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1mm 0;
+        }
+        
+        th, td {
+            padding: 1mm 0.5mm;
+            vertical-align: top;
+        }
+        
+        .item-qty { width: 12mm; text-align: center; }
+        .item-desc { width: auto; }
+        .item-price { width: 18mm; text-align: right; }
+        .item-total { width: 18mm; text-align: right; }
+        
+        /* Totales */
+        .total-row {
+            font-weight: bold;
+            border-top: 1px dashed #000;
+        }
+        
+        /* Pie de factura */
+        .payment-info {
+            margin-top: 2mm;
+            padding-top: 1mm;
+            border-top: 1px dashed #000;
+            line-height: 1.3;
+        }
+        
+        .footer {
+            margin-top: 3mm;
+            font-size: 7pt;
+            text-align: center;
+            border-top: 1px dashed #000;
+            padding-top: 1mm;
+            line-height: 1.2;
+        }
+        
+        /* Líneas divisorias */
+        .divider {
+            border-top: 1px dashed #000;
+            margin: 2mm 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Encabezado con logo -->
+<div class="header">
+    @if(file_exists(public_path('storage/'.$sucursal->imagen)))
+    <img src="{{ public_path('storage/'.$sucursal->imagen) }}" class="logo" alt="Logo">
+    @endif
+    <div class="header-text">
+        <div class="company-name text-uppercase">{{$sucursal->nombre}}</div>
+        <div class="company-info">
+            NIT: {{$sucursal->telefono}}<br>
+            Tel: {{$sucursal->telefono}}<br>
+            {{$sucursal->direccion}}
+        </div>
+    </div>
+</div>
+
+<!-- Título del documento -->
+<div class="invoice-title text-uppercase">factura de venta</div>
 
 <?php
 $fecha_db = $venta->fecha;
-// la fecha
 $fecha_formateada = date("d", strtotime($fecha_db)) ." de ".
 date("F", strtotime($fecha_db)) . " de " .
 date("Y", strtotime($fecha_db));
@@ -60,48 +154,29 @@ $meses = [
 ];
 $fecha_formateada = str_replace(array_keys($meses), array_values($meses), $fecha_formateada);
 ?>
-<!-- Datos del Cliente -->
-<table border="1" style="width: 100%; border-collapse: collapse;">
-    <thead>
-    <tr>
-            <th colspan="4" style="text-align: center; background-color: black; color: white;"><b>Datos de los Clientes</b></th>
-        </tr>
-        <tr>
-            <th><b>Nombre</b></th>
-            <th><b>Celular</b></th>
-            <th><b>NIT/CI</b></th>
-            <th><b>Fecha</b></th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Datos del cliente -->
-        <tr>
-            <td>{{$venta->cliente->nombre_cliente}}</td>
-            <td>{{$venta->cliente->celular}}</td>
-            <td>{{$venta->cliente->nit_ci}}</td>
-            <td width="200px">{{$fecha_formateada}}</td>
-        </tr>
-    </tbody>
-</table>
 
-<!-- Espacio entre las tablas -->
-<br>
+<!-- Datos del cliente (con validación) -->
+<div class="client-info">
+    @if(isset($venta->cliente))
+    <div class="text-bold">Cliente: {{$venta->cliente->nombre_cliente ?? 'SIN NOMBRE'}}</div>
+    <div>NIT/CI: {{$venta->cliente->nit_ci ?? '0'}}</div>
+    @else
+    <div class="text-bold">Cliente: SIN NOMBRE</div>
+    <div>NIT/CI: 0</div>
+    @endif
+    <div>Fecha: {{$fecha_formateada}}</div>
+</div>
 
-<!-- Detalle de la Venta -->
-<table border="1" style="width: 100%; border-collapse: collapse;">
+<div class="divider"></div>
+
+<!-- Detalle de la venta -->
+<table>
     <thead>
-        <tr>
-            <th colspan="6" style="text-align: center; background-color: black; color: white;">
-                <b>Detalle de venta</b>
-            </th>
-        </tr>
-        <tr>
-            <td width="30px" style="background-color: #cccccc;text-align: center"><b>Nro</b></td>
-            <td width="200px" style="background-color: #cccccc;text-align: center"><b>Productos</b></td>
-            <td width="210px" style="background-color: #cccccc;text-align: center"><b>Descripción</b></td>
-            <td width="80px" style="background-color: #cccccc;text-align: center"><b>Cantidad</b></td>
-            <td width="80px" style="background-color: #cccccc;text-align: center"><b>P/U (Bs)</b></td>
-            <td width="80px" style="background-color: #cccccc;text-align: center"><b>Subtotal (Bs)</b></td>
+        <tr class="text-bold">
+            <th class="item-qty">Cant.</th>
+            <th class="item-desc">Descripción</th>
+            <th class="item-price">P.Unit</th>
+            <th class="item-total">Subtotal</th>
         </tr>
     </thead>
     <tbody>
@@ -121,37 +196,35 @@ $fecha_formateada = str_replace(array_keys($meses), array_values($meses), $fecha
         $suma_cantidad += $detalle->cantidad;
         @endphp
         <tr>
-            <td style="text-align: center">{{$contador++}}</td>
-            <td>{{$detalle->producto->nombre}}</td>
-            <td>{{$detalle->producto->descripcion}}</td>
-            <td style="text-align: center">{{$detalle->cantidad}}</td>
-            <td style="text-align: center"><b>Bs </b>{{$detalle->producto->precio_venta}}</td>
-            <td style="text-align: center"><b>Bs </b>{{$subtotal}}</td>
+            <td class="item-qty">{{$detalle->cantidad}}</td>
+            <td class="item-desc">{{$detalle->producto->nombre}}</td>
+            <td class="item-price">Bs {{number_format($detalle->producto->precio_venta, 2, '.', ',')}}</td>
+            <td class="item-total">Bs {{number_format($subtotal, 2, '.', ',')}}</td>
         </tr>
         @endforeach
 
-        <!-- total -->
-        <tr>
-            <td colspan="3" style="background-color: #cccccc; text-align: center"><b>Total</b></td>
-            <td style="background-color: #cccccc; text-align: center"><b>{{$suma_cantidad}}</b></td>
-            <td style="background-color: #cccccc; text-align: center"><b>Bs {{$suma_precio_unitario}}</b></td>
-            <td style="background-color: #cccccc; text-align: center"><b>Bs {{$suma_subtotal}}</b></td>
+        <!-- Totales -->
+        <tr class="total-row">
+            <td class="item-qty">{{$suma_cantidad}}</td>
+            <td class="item-desc">TOTAL</td>
+            <td class="item-price">Bs {{number_format($suma_precio_unitario, 2, '.', ',')}}</td>
+            <td class="item-total">Bs {{number_format($suma_subtotal, 2, '.', ',')}}</td>
         </tr>
     </tbody>
 </table>
-<p>
-    <b>Monto a cancelar:</b>{{$venta->precio_total}} <br> <br>
-    <b>Son: </b>{{$literal}}
-</p>
 
+<!-- Información de pago -->
+<div class="payment-info">
+    <div class="text-bold">Total a pagar: Bs {{number_format($venta->precio_total, 2, '.', ',')}}</div>
+    <div>Son: {{$literal}}</div>
+</div>
 
+<!-- Pie de página -->
+<div class="footer">
+    {{date('d/m/Y H:i:s')}}<br>
+    ¡Gracias por su compra!<br>
+    {{$sucursal->nombre}}
+</div>
 
-
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  </body>
+</body>
 </html>
-
-

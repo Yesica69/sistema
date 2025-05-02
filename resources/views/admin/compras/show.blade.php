@@ -1,168 +1,187 @@
 @extends('adminlte::page')
 
 @section('content_header')
-    <h1><b>Detalle de la compra</b></h1>
+<div class="d-flex justify-content-between align-items-center">
+    <h1 class="m-0 text-dark"><i class="fas fa-shopping-cart mr-2"></i> <strong>Detalle de la Compra</strong></h1>
+</div>
 @endsection
 
 @section('content')
-<div class="row">
-    <!-- Formulario para crear un usuario -->
-    <div class="col-md-12">
-        <div class="card card-outline card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Datos registrdos</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-info-circle mr-2"></i>Datos Registrados
+                    </h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <!-- Formulario -->
                 
-
-                <div class="row">
+                <div class="card-body">
+                    <div class="row">
                         <!-- Columna izquierda (Tabla de productos) -->
                         <div class="col-md-8">
-                            <table class="table table-sm table-striped table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Nro</th>
-                                        <th>Código</th>
-                                        <th>Cantidad</th>
-                                        <th>Nombre</th>
-                                        <th>Costo</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $cont = 1; $total_cantidad = 0; $total_compra = 0; ?>
-                                    @foreach($compra->detalles as $detalle)
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered">
+                                    <thead class="thead-light">
                                         <tr>
-                                            <td style="text-align: center">{{$cont++}}</td>
-                                            <td style="text-align: center">{{$detalle->producto->codigo}}</td>
-                                            <td style="text-align: center">{{$detalle->cantidad}}</td>
-                                            <td>{{$detalle->producto->nombre}}</td>
-                                            <td style="text-align: center">{{$detalle->producto->precio_compra}}</td>
-                                            <td style="text-align: center">{{$costo = $detalle->cantidad * $detalle->producto->precio_compra}}</td>
+                                            <th style="width: 5%; text-align: center">Nro</th>
+                                            <th style="text-align: center">Código</th>
+                                            <th style="text-align: center">Cantidad</th>
+                                            <th style="text-align: center">Nombre</th>
+                                            <th style="text-align: center">Lbortorio</th>
+                                            <th style="text-align: center">Costo</th>
+                                            <th style="text-align: center">Total</th>
                                         </tr>
-                                        @php
-                                            $total_cantidad += $detalle->cantidad;
-                                            $total_compra += $costo;
-                                        @endphp
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="2" style="text-align: right">Total</td>
-                                        <td style="text-align: center"><b>{{$total_cantidad}}</b></td>
-                                        <td colspan="2" style="text-align: right">Total compra</td>
-                                        <td style="text-align: center"><b>{{$total_compra}}</b></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php $cont = 1; $total_cantidad = 0; $total_compra = 0; ?>
+                                        @foreach($compra->detalles as $detalle)
+                                            <tr>
+                                                <td style="text-align: center; vertical-align: middle">{{$cont++}}</td>
+                                                <td style="text-align: center; vertical-align: middle">
+                                                    <span class="badge badge-secondary">{{$detalle->producto->codigo}}</span>
+                                                </td>
+                                                <td style="text-align: center; vertical-align: middle">{{$detalle->cantidad}}</td>
+                                                <td style="vertical-align: middle">{{$detalle->producto->nombre}}</td>
+                                                <td style="vertical-align: middle">"{{$compra->laboratorio->nombre}}" </td>
+                                                <td style="text-align: center; vertical-align: middle">Bs{{number_format($detalle->producto->precio_compra, 2)}}</td>
+                                                <td style="text-align: center; vertical-align: middle">Bs{{number_format($costo = $detalle->cantidad * $detalle->producto->precio_compra, 2)}}</td>
+                                            </tr>
+                                            @php
+                                                $total_cantidad += $detalle->cantidad;
+                                                $total_compra += $costo;
+                                            @endphp
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot class="bg-light">
+                                        <tr>
+                                            <td colspan="2" style="text-align: right"><strong>Total</strong></td>
+                                            <td style="text-align: center"><strong>{{$total_cantidad}}</strong></td>
+                                            <td colspan="2" style="text-align: right"><strong>Total compra</strong></td>
+                                            <td style="text-align: center"><strong>Bs{{number_format($total_compra, 2)}}</strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
 
                         <!-- Columna derecha (Fecha y detalles de compra) -->
                         <div class="col-md-4">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="">Laboratorio</label>
-                                    <input type="text" value="{{$compra->laboratorio->nombre}}" class="form-control" id="nombre_laboratorio{{$compra->id}}" disabled>
-                                    
+                            
+                            <div class="card border-info mb-3">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="card-title mb-0"><i class="fas fa-calendar-alt mr-2"></i>Información de Compra</h5>
                                 </div>
-                            </div>
-
-                            <hr>
-
-                            <div class="row">
-                                <div class="col-md-6">
+                                <div class="card-body">
                                     <div class="form-group">
                                         <label for="fecha">Fecha</label>
-                                        <input type="date" class="form-control" name="fecha" value="{{$compra->fecha }}" disabled>
+                                        <input type="date" class="form-control bg-light" value="{{$compra->fecha}}" disabled>
                                     </div>
-                                </div>
 
-                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="comprobante{{$compra->id}}">Comprobante</label>
-                                        <select name="comprobante" id="comprobante{{$compra->id}}" class="form-control" disabled>
+                                        <select name="comprobante" id="comprobante{{$compra->id}}" class="form-control bg-light" disabled>
                                             <option value="FACTURA" {{ trim($compra->comprobante) == 'FACTURA' ? 'selected' : '' }}>FACTURA</option>
                                             <option value="RECIBO" {{ trim($compra->comprobante) == 'RECIBO' ? 'selected' : '' }}>RECIBO</option>
                                         </select>
                                     </div>
-                                </div>
 
-                            </div> 
-
-                            <div class="row">
-                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="precio_total">Total</label>
-                                        <input type="text" style="text-align: center;background-color: pink" class="form-control" name="precio_total" value="{{$total_compra}}">
+                                        <label for="precio_total">Monto Total</label>
+                                        <input type="text" class="form-control text-center font-weight-bold text-danger bg-light" value="Bs{{number_format($total_compra, 2)}}" disabled>
                                     </div>
                                 </div>
-                            </div> 
-                        </div>  
+                            </div>
+                        </div>
                     </div>
-
-            </div>
-          
-
-            <div class="modal-footer">
-            <a href="{{url('/admin/compras')}}" type="submit" class="btn btn-outline-primary">Volver
-    
-    </a>
-    
-                    
                 </div>
+                
+                <div class="card-footer text-right">
+                    <a href="{{url('/admin/compras')}}" class="btn btn-primary">
+                        <i class="fas fa-arrow-left mr-1"></i> Volver
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 @endsection
 
 @section('css')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid rgba(0,0,0,.125);
+    }
+    .table thead th {
+        background-color: #f1f5f9;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+    }
+    .badge-secondary {
+        background-color: #6c757d;
+    }
+    .table-hover tbody tr:hover {
+        background-color: rgba(59, 130, 246, 0.05);
+    }
+    .bg-light {
+        background-color: #f8f9fa!important;
+    }
+    .card.border-primary {
+        border-color: #3b82f6!important;
+    }
+    .card.border-info {
+        border-color: #06b6d4!important;
+    }
+    .text-danger {
+        color: #dc3545!important;
+    }
+    .font-weight-bold {
+        font-weight: 600!important;
+    }
+</style>
 @endsection
 
 @section('js')
 <script>
-
 //selecionar de la busqueda lab
 $('.seleccionar-btn-laboratorio').click(function (){
     var id_laboratorio = $(this).data('id');
     var nombre = $(this).data('nombre');
-  // alert(nombre);   nombre_laboratorio
    $('#nombre_laboratorio').val(nombre);
    $('#id_laboratorio').val(id_laboratorio);
-   //cerra el modal 
    $('#labModal').modal('hide');
-   
 });
-
 
 //selecionar de la busqueda un producto
 $('.seleccionar-btn').click(function (){
     var id_producto = $(this).data('id');
-   // alert(id_producto)
    $('#codigo').val(id_producto);
-   //cerra el modal 
    $('#verModal').modal('hide');
    $('#verModal').on('hidden.bs.modal', function () {
     $('#codigo').focus();
    });
 });
 
-
 //eliminar un compra
 $('.delete-btn').click(function () {
     var id = $(this).data('id');
     if (id) {
         $.ajax({
-            url: "{{url('/admin/compras/create/tmp')}}/"+id, // Se corrigió el uso de route()
+            url: "{{url('/admin/compras/create/tmp')}}/"+id,
             type: 'POST',
             data: {
-                _token: '{{ csrf_token()}}', // Se corrigió el espacio en csrf_token()
-                _method: 'DELETE' // Se corrigió method por _method
+                _token: '{{ csrf_token()}}',
+                _method: 'DELETE'
             },
             success: function (response) {
                 if (response.success) {
@@ -231,9 +250,7 @@ $('#form_compra').on('keypress',function (e){
         }
         }
     });
-</script>
 
-<script>
     $('#mitabla').DataTable({
         "pageLength": 5,
         "language": {
@@ -255,7 +272,6 @@ $('#form_compra').on('keypress',function (e){
         }
     });
 
-
     $('#mitabla2').DataTable({
         "pageLength": 5,
         "language": {
@@ -276,8 +292,5 @@ $('#form_compra').on('keypress',function (e){
             "emptyTable": "No hay datos disponibles en la tabla"
         }
     });
-
-
-
 </script>
 @endsection
